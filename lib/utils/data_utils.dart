@@ -10,17 +10,17 @@ class DataUtils {
   static const String SP_PASSWORD = 'password';
   
   static const String SP_IS_LOGIN = "isLogin";
-  static const String SP_admin = "admin";
-  static const String SP_chapterTops = "chapterTops";
-  static const String SP_collectIds = "collectIds";
-  static const String SP_email = "email";
-  static const String SP_icon = "icon";
-  static const String SP_id = "id";
-  static const String SP_nickname = "nickname";
+  static const String SP_ADMIN = "admin";
+  static const String SP_CHAPTERTOPS = "chapterTops";
+  static const String SP_COLLECTIDS = "collectIds";
+  static const String SP_EMAIL = "email";
+  static const String SP_ICON = "icon";
+  static const String SP_ID = "id";
+  static const String SP_NICKNAME = "nickname";
   static const String SP_password = "password";
-  static const String SP_publicName = "publicName";
-  static const String SP_token = "token";
-  static const String SP_type = "type";
+  static const String SP_PUBLICNAME = "publicName";
+  static const String SP_TOKEN = "token";
+  static const String SP_TYPE = "type";
   static const String SP_username = "username";
 
   // 设置选择的主题色
@@ -44,17 +44,17 @@ class DataUtils {
   static Future<void> saveLoginInfo(LoginData loginData) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp
-      ..setBool(SP_admin, loginData.admin)
+      ..setBool(SP_ADMIN, loginData.admin)
 //      ..setStringList(SP_chapterTops, loginData.chapterTops)
 //      ..setStringList(SP_collectIds, loginData.collectIds)
-      ..setString(SP_email, loginData.email)
-      ..setString(SP_icon, loginData.icon)
-      ..setInt(SP_id, loginData.id)
-      ..setString(SP_nickname, loginData.nickname)
+      ..setString(SP_EMAIL, loginData.email)
+      ..setString(SP_ICON, loginData.icon)
+      ..setInt(SP_ID, loginData.id)
+      ..setString(SP_NICKNAME, loginData.nickname)
       ..setString(SP_password, loginData.password)
-      ..setString(SP_publicName, loginData.publicName)
-      ..setString(SP_token, loginData.token)
-      ..setInt(SP_type, loginData.type)
+      ..setString(SP_PUBLICNAME, loginData.publicName)
+      ..setString(SP_TOKEN, loginData.token)
+      ..setInt(SP_TYPE, loginData.type)
       ..setString(SP_username, loginData.username)
       ..setBool(SP_IS_LOGIN, true);
   }
@@ -63,17 +63,17 @@ class DataUtils {
   static Future<void> clearLoginInfo() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp
-      ..setBool(SP_admin, false)
-      ..setStringList(SP_chapterTops, null)
-      ..setStringList(SP_collectIds, null)
-      ..setString(SP_email, '')
-      ..setString(SP_icon, "")
-      ..setInt(SP_id, -1)
-      ..setString(SP_nickname, '')
+      ..setBool(SP_ADMIN, false)
+      ..setStringList(SP_CHAPTERTOPS, null)
+      ..setStringList(SP_COLLECTIDS, null)
+      ..setString(SP_EMAIL, '')
+      ..setString(SP_ICON, "")
+      ..setInt(SP_ID, -1)
+      ..setString(SP_NICKNAME, '')
       ..setString(SP_password, '')
-      ..setString(SP_publicName, '')
-      ..setString(SP_token, '')
-      ..setInt(SP_type, -1)
+      ..setString(SP_PUBLICNAME, '')
+      ..setString(SP_TOKEN, '')
+      ..setInt(SP_TYPE, -1)
       ..setString(SP_username, '')
       ..setBool(SP_IS_LOGIN, false);
   }
@@ -87,17 +87,17 @@ class DataUtils {
       return null;
     }
     LoginData user = new LoginData();
-    user.admin = sp.getBool(SP_admin);
+    user.admin = sp.getBool(SP_ADMIN);
 //    user.chapterTops = sp.getStringList(SP_chapterTops);
 //    user.collectIds = sp.getStringList(SP_collectIds);
-    user.email = sp.getString(SP_email);
-    user.icon = sp.getString(SP_icon);
-    user.id = sp.getInt(SP_id);
-    user.nickname = sp.getString(SP_nickname);
+    user.email = sp.getString(SP_EMAIL);
+    user.icon = sp.getString(SP_ICON);
+    user.id = sp.getInt(SP_ID);
+    user.nickname = sp.getString(SP_NICKNAME);
     user.password = sp.getString(SP_password);
-    user.publicName = sp.getString(SP_publicName);
-    user.token = sp.getString(SP_token);
-    user.type = sp.getInt(SP_type);
+    user.publicName = sp.getString(SP_PUBLICNAME);
+    user.token = sp.getString(SP_TOKEN);
+    user.type = sp.getInt(SP_TYPE);
     user.username = sp.getString(SP_username);
     return user;
   }
