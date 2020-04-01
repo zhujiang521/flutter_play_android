@@ -81,7 +81,7 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
                             ),
                             image: DecorationImage(
                               image: _image == null
-                                  ? NetworkImage(_userInfo.icon)
+                                  ? NetworkImage("http://pic2.zhimg.com/50/v2-fb824dbb6578831f7b5d92accdae753a_hd.jpg")
                                   : FileImage(_image),
                               fit: BoxFit.cover,
                             ),

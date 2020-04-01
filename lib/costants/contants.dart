@@ -7,8 +7,14 @@ abstract class AppUrls {
   // 首页文章列表
   static const String GET_ARTICLE_LIST = BASE_URL + 'article/list/';
 
+  // 首页置顶文章列表
+  static const String GET_TOP_ARTICLE_LIST = BASE_URL + 'article/top/json';
+
   // 首页搜索热词
   static const String GET_SEARCH_HOT_KEY = BASE_URL + 'hotkey/json';
+
+  //搜索 https://www.wanandroid.com/article/query/0/json
+  static const String POST_QUERY_KEY = BASE_URL + 'article/query/';
 
   // 项目分类
   static const String GET_PROJECT_CLASSIFY = BASE_URL + 'project/tree/json';
@@ -30,5 +36,11 @@ abstract class AppUrls {
 
   // 登录退出
   static const String GET_LOGOUT = BASE_URL + 'user/logout/json';
+
+  // 收藏站内文章 lg/collect/1165/json
+  static const String POST_COLLECT_ARTICLE = BASE_URL + 'lg/collect/';
+
+  // 收藏站内文章 lg/collect/1165/json
+  static const String GET_COLLECT_ARTICLE = BASE_URL + 'lg/collect/list/';
 
 }

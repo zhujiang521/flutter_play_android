@@ -36,7 +36,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget>
           icon: new Icon(Icons.perm_contact_calendar), title: new Text("项目"), vsync: this),
       // vsync 默认属性和参数
       new NavigationIconView(
-          icon: new Icon(Icons.account_balance_wallet), title: new Text("体系"), vsync: this),
+          icon: new Icon(Icons.account_balance_wallet), title: new Text("公众号"), vsync: this),
       new NavigationIconView(
           icon: new Icon(Icons.person), title: new Text("我的"), vsync: this),
     ];

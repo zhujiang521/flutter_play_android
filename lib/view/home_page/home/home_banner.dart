@@ -36,6 +36,7 @@ class HomeBanner extends StatelessWidget {
                     builder: (context) => CommonWebPage(
                           title: _data[index].title,
                           url: _data[index].url,
+                          id: _data[index].id,
                         )));
               },
             )

@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:play/view/home/home_page/home/home_page.dart';
-import 'package:play/view/home/home_page/mark/public_mark_page.dart';
-import 'package:play/view/home/home_page/profile/profile_view.dart';
-import 'package:play/view/home/home_page/project/project_page.dart';
 import 'package:play/widgets/bottomnavigation.dart';
+
+import 'home_page/home/home_page.dart';
+import 'home_page/mark/public_mark_page.dart';
+import 'home_page/profile/profile_view.dart';
+import 'home_page/project/project_page.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  final appBarTitles = ['首页', '项目', '体系', '我的'];
+  //final appBarTitles = ['首页', '项目', '公众号', '我的'];
   List<Widget> list = List();
   int _currentIndex = 0;
   var _body;

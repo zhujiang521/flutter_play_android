@@ -9,11 +9,12 @@ import 'package:play/utils/net_utils.dart';
 import 'package:play/utils/theme_utils.dart';
 import 'package:play/utils/toast.dart';
 import 'package:play/view/account/login_view.dart';
-import 'package:play/view/home/home_page/profile/profile_collection_page.dart';
-import 'package:play/view/home/home_page/profile/profile_details_page.dart';
-import 'package:play/view/opinion/change_theme_page.dart';
+import 'package:play/utils/change_theme_page.dart';
 import 'package:play/widgets/common_web_page.dart';
 import 'package:play/widgets/customdialog.dart';
+
+import 'profile_collection_page.dart';
+import 'profile_details_page.dart';
 
 class ProfileView extends StatefulWidget {
   @override
@@ -104,6 +105,7 @@ class _ProfileViewState extends State<ProfileView> {
                         builder: (context) => CommonWebPage(
                               title: "我的博客",
                               url: "https://blog.csdn.net/haojiagou",
+                              id: -1,
                             )));
                     break;
                   case 3:
@@ -146,8 +148,8 @@ class _ProfileViewState extends State<ProfileView> {
           children: <Widget>[
             GestureDetector(
               child: Container(
-                width: 60.0,
-                height: 60.0,
+                width: ScreenUtil.getInstance().setWidth(200),
+                height: ScreenUtil.getInstance().setWidth(200),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
@@ -195,8 +197,9 @@ class _ProfileViewState extends State<ProfileView> {
         DataUtils.getUserInfo().then((login) {
           if (mounted) {
             setState(() {
-              print("出来吧大哥: ${login.nickname}");
-              userAvatar = login.icon;
+              userAvatar = login.icon == ""
+                  ? "http://pic2.zhimg.com/50/v2-fb824dbb6578831f7b5d92accdae753a_hd.jpg"
+                  : login.icon;
               userName = login.nickname;
             });
           }
@@ -241,7 +244,7 @@ class _ProfileViewState extends State<ProfileView> {
                 confirmColor: Colors.blue,
               );
             });
-      }else{
+      } else {
         showDialog(
             context: context,
             barrierDismissible: false,

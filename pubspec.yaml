@@ -34,6 +34,7 @@ flutter:
     - assets/images/welcome_bg.jpeg
     - assets/images/ic_head.jpeg
     - assets/images/ic_eye.png
+    - assets/images/placeholder.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

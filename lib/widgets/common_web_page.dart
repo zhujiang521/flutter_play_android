@@ -1,16 +1,26 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:play/costants/contants.dart';
+import 'package:play/utils/data_utils.dart';
+import 'package:play/utils/net_utils.dart';
+import 'package:play/utils/theme_utils.dart';
+import 'package:play/utils/toast.dart';
 
 class CommonWebPage extends StatefulWidget {
   final String title;
   final String url;
+  final int id;
+  final bool collect;
 
-
-  CommonWebPage({Key key, this.title, this.url})
+  CommonWebPage({Key key, this.title, this.url, this.id,this.collect})
       : assert(title != null),
         assert(url != null),
+        assert(id != null),
         super(key: key);
 
   @override
@@ -18,28 +28,38 @@ class CommonWebPage extends StatefulWidget {
 }
 
 class _CommonWebPageState extends State<CommonWebPage> {
+  List<Map<String, Object>> list = new List();
   bool isLoading = true;
+  bool isDialog = false;
   FlutterWebviewPlugin _flutterWebviewPlugin = FlutterWebviewPlugin();
-
+  String collect = "收藏";
 
   @override
   void initState() {
     super.initState();
+    if(widget.collect!=null && widget.collect){
+      collect = "取消收藏";
+    }
+    list
+      ..add({"title": collect, "icon": Icons.favorite_border})
+      ..add({"title": "复制链接", "icon": Icons.link})
+      ..add({"title": "浏览器打开", "icon": Icons.open_in_browser})
+      ..add({"title": "微信分享", "icon": Icons.share})
+      ..add({"title": "刷新", "icon": Icons.refresh});
     //监听url变化
     _flutterWebviewPlugin.onStateChanged.listen((state) {
-      if(state.type == WebViewState.finishLoad){
+      if (state.type == WebViewState.finishLoad) {
         if (!mounted) return;
         setState(() {
           isLoading = false;
         });
-      }else  if(state.type == WebViewState.startLoad){
+      } else if (state.type == WebViewState.startLoad) {
         if (mounted) {
           setState(() {
             isLoading = true;
           });
         }
       }
-
     });
   }
 
@@ -47,9 +67,9 @@ class _CommonWebPageState extends State<CommonWebPage> {
   Widget build(BuildContext context) {
     List<Widget> _appBarTitle = [
       Container(
-        width: ScreenUtil.getInstance().setWidth(750),
+        width: ScreenUtil.getInstance().setWidth(680),
         child: Text(
-         widget.title,
+          widget.title,
           style: TextStyle(
             color: Colors.white,
           ),
@@ -71,13 +91,177 @@ class _CommonWebPageState extends State<CommonWebPage> {
         title: Row(
           children: _appBarTitle,
         ),
-        iconTheme: IconThemeData(color: Colors.white), //0412 added
+        iconTheme: IconThemeData(color: Colors.white), //0412
+        actions: actions(context), // added
       ),
       withJavascript: true,
       //允许执行js
       withLocalStorage: true,
       //允许本地存储
-      withZoom: true, //允许网页缩放
+      withZoom: true,
+      //允许网页缩放
+      bottomNavigationBar: Visibility(
+        child: container(),
+        visible: isDialog,
+      ),
     );
   }
+
+  List<Widget> actions(BuildContext context) {
+    return <Widget>[
+      widget.id != -1
+          ? GestureDetector(
+              onTap: () {
+                // 显示底部弹框
+
+                //showBottomSheet(context);
+
+                setState(() {
+                  isDialog = true;
+                });
+              },
+              child: Container(
+                padding: EdgeInsets.only(
+                  right: 10,
+                ),
+                child: Icon(Icons.more_vert),
+              ),
+            )
+          : Container(),
+    ];
+  }
+
+  Container container() {
+    return Container(
+      height: 290,
+      color: Colors.black12,
+      padding: EdgeInsets.all(15),
+      alignment: Alignment.center,
+      child: GridView.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          childAspectRatio: 0.8,
+        ),
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            child: createBottomSheetItem(
+                list[index]['title'], list[index]['icon']),
+            onTap: () {
+              //Navigator.pop(context);
+              handleBottomSheetItemClick(context, index);
+            },
+          );
+        },
+        itemCount: list.length,
+      ),
+    );
+  }
+
+  showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return container();
+      },
+    );
+  }
+
+  createBottomSheetItem(String title, IconData icon) {
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(
+            top: 10,
+            bottom: 10,
+          ),
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Icon(
+            icon,
+            color: ThemeUtils.currentColorTheme,
+            size: 32,
+          ),
+        ),
+        Text(
+          title,
+          maxLines: 1,
+          style: TextStyle(
+            fontSize: 14,
+          ),
+        ),
+      ],
+    );
+  }
+
+  void handleBottomSheetItemClick(context, index) {
+    setState(() {
+      isDialog = false;
+    });
+    switch (index) {
+      case 0:
+        addArticleFavorite();
+        break;
+      case 1:
+        copyLink();
+        break;
+      case 2:
+        openByBrowser();
+        break;
+      case 3:
+        shareWeChat();
+        break;
+      case 4:
+        refresh();
+        break;
+    }
+  }
+
+  /// 添加收藏
+  void addArticleFavorite() {
+    DataUtils.isLogin().then((isLogin) {
+      if (isLogin) {
+        NetUtils.postAndCookie(
+                AppUrls.POST_COLLECT_ARTICLE + widget.id.toString() + "/json")
+            .then((value) async {
+          var data = json.decode(value);
+          if (data["errorCode"] == 0) {
+            ToastUtils.showToast("收藏成功");
+            collect = "取消收藏";
+          } else {
+            ToastUtils.showToast("收藏失败");
+          }
+          print("收藏$value");
+        });
+      } else {
+        ToastUtils.showToast("请先登录！");
+      }
+    });
+  }
+
+  /// 复制链接
+  void copyLink() {
+    ClipboardData data = new ClipboardData(text: widget.url);
+    Clipboard.setData(data);
+    ToastUtils.showToast("复制成功");
+  }
+
+  /// 从浏览器打开
+  void openByBrowser() async {
+//    if (await canLaunch(widget.url)) {
+//      await launch(widget.url);
+//    } else {
+//      throw 'Could not launch $widget.url';
+//    }
+  }
+
+  /// 分享到微信
+  void shareWeChat() {}
+
+  /// 刷新
+  void refresh() {}
 }

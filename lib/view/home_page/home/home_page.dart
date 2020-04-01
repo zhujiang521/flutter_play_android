@@ -2,17 +2,16 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:play/bean/article_entity.dart';
 import 'package:play/bean/banner_entity.dart';
+import 'package:play/bean/top_article_entity.dart';
 import 'package:play/costants/contants.dart';
 import 'package:play/utils/net_utils.dart';
-import 'package:play/utils/toast.dart';
-import 'package:play/view/home/home_page/home/home_article_item.dart';
-import 'package:play/view/home/home_page/home/home_banner.dart';
 import 'package:play/widgets/common_loading.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import 'home_article_item.dart';
+import 'home_banner.dart';
 import 'search/home_search_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -46,8 +45,7 @@ class _HomePageState extends State<HomePage> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  new MaterialPageRoute(
-                      builder: (context) => HomeSearchPage()),
+                  new MaterialPageRoute(builder: (context) => HomeSearchPage()),
                 );
               })
         ],
@@ -110,6 +108,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _getArticleList() {
+    NetUtils.get(AppUrls.GET_TOP_ARTICLE_LIST)
+        .then((value) async {
+      print("home_page: " + value);
+      var data = json.decode(value);
+      TopArticleEntity banner = TopArticleEntity().fromJson(data);
+      if (banner.errorCode == 0) {
+        if (_page == 0) {
+          _articleList.clear();
+          _articleList.addAll(banner.data);
+        }
+        print("home_page  " + _data.length.toString());
+      }
+    });
     NetUtils.get(AppUrls.GET_ARTICLE_LIST + _page.toString() + "/json")
         .then((value) async {
       print("home_page: " + value);
@@ -118,9 +129,6 @@ class _HomePageState extends State<HomePage> {
       if (banner.errorCode == 0) {
         if (mounted)
           setState(() {
-            if (_page == 0) {
-              _articleList.clear();
-            }
             _articleList.addAll(banner.data.datas);
             print("home_page  " + _data.length.toString());
           });

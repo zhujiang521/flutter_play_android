@@ -2,13 +2,12 @@ import 'package:play/bean/login_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DataUtils {
-
   static const String SP_COLOR_THEME_INDEX = "colorThemeIndex";
 
   //用户信息字段
   static const String SP_USERNAME = 'username';
   static const String SP_PASSWORD = 'password';
-  
+
   static const String SP_IS_LOGIN = "isLogin";
   static const String SP_ADMIN = "admin";
   static const String SP_CHAPTERTOPS = "chapterTops";
@@ -22,6 +21,7 @@ class DataUtils {
   static const String SP_TOKEN = "token";
   static const String SP_TYPE = "type";
   static const String SP_username = "username";
+  static const String SP_COOKIE = "Cookie";
 
   // 设置选择的主题色
   static setColorTheme(int colorThemeIndex) async {
@@ -41,9 +41,13 @@ class DataUtils {
     return isLogin != null && isLogin;
   }
 
-  static Future<void> saveLoginInfo(LoginData loginData) async {
+  Future<void> saveLoginInfo(
+      LoginData loginData, String username, String password) async {
+    cookie = "loginUserName=$username;loginUserPassword=$password";
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp
+      ..setString(SP_USERNAME, username)
+      ..setString(SP_PASSWORD, password)
       ..setBool(SP_ADMIN, loginData.admin)
 //      ..setStringList(SP_chapterTops, loginData.chapterTops)
 //      ..setStringList(SP_collectIds, loginData.collectIds)
@@ -56,13 +60,16 @@ class DataUtils {
       ..setString(SP_TOKEN, loginData.token)
       ..setInt(SP_TYPE, loginData.type)
       ..setString(SP_username, loginData.username)
+      ..setString(SP_COOKIE, cookie)
       ..setBool(SP_IS_LOGIN, true);
-  }
 
+  }
 
   static Future<void> clearLoginInfo() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp
+      ..setString(SP_USERNAME, '')
+      ..setString(SP_PASSWORD, '')
       ..setBool(SP_ADMIN, false)
       ..setStringList(SP_CHAPTERTOPS, null)
       ..setStringList(SP_COLLECTIDS, null)
@@ -75,9 +82,9 @@ class DataUtils {
       ..setString(SP_TOKEN, '')
       ..setInt(SP_TYPE, -1)
       ..setString(SP_username, '')
+      ..setString(SP_COOKIE, "")
       ..setBool(SP_IS_LOGIN, false);
   }
-
 
   //获取用户信息
   static Future<LoginData> getUserInfo() async {
@@ -100,6 +107,17 @@ class DataUtils {
     user.type = sp.getInt(SP_TYPE);
     user.username = sp.getString(SP_username);
     return user;
+  }
+
+  Map<String, String> _headerMap;
+  String cookie;
+
+  Map<String, String> getHeader() {
+    if (null == _headerMap) {
+      _headerMap = Map();
+      _headerMap["Cookie"] = cookie;
+    }
+    return _headerMap;
   }
 
 }
