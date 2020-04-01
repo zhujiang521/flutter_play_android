@@ -1,10 +1,8 @@
-import 'package:play/bean/article_entity.dart';
-import 'package:play/bean/search_article_entity.dart';
+import 'package:play/bean/collection_entity.dart';
 
-
-searchArticleEntityFromJson(SearchArticleEntity data, Map<String, dynamic> json) {
+collectionEntityFromJson(CollectionEntity data, Map<String, dynamic> json) {
 	if (json['data'] != null) {
-		data.data = new SearchArticleData().fromJson(json['data']);
+		data.data = new CollectionData().fromJson(json['data']);
 	}
 	if (json['errorCode'] != null) {
 		data.errorCode = json['errorCode']?.toInt();
@@ -15,7 +13,7 @@ searchArticleEntityFromJson(SearchArticleEntity data, Map<String, dynamic> json)
 	return data;
 }
 
-Map<String, dynamic> searchArticleEntityToJson(SearchArticleEntity entity) {
+Map<String, dynamic> collectionEntityToJson(CollectionEntity entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	if (entity.data != null) {
 		data['data'] = entity.data.toJson();
@@ -25,14 +23,14 @@ Map<String, dynamic> searchArticleEntityToJson(SearchArticleEntity entity) {
 	return data;
 }
 
-searchArticleDataFromJson(SearchArticleData data, Map<String, dynamic> json) {
+collectionDataFromJson(CollectionData data, Map<String, dynamic> json) {
 	if (json['curPage'] != null) {
 		data.curPage = json['curPage']?.toInt();
 	}
 	if (json['datas'] != null) {
-		data.datas = new List<ArticleDataData>();
+		data.datas = new List<CollectionDataData>();
 		(json['datas'] as List).forEach((v) {
-			data.datas.add(new ArticleDataData().fromJson(v));
+			data.datas.add(new CollectionDataData().fromJson(v));
 		});
 	}
 	if (json['offset'] != null) {
@@ -53,7 +51,7 @@ searchArticleDataFromJson(SearchArticleData data, Map<String, dynamic> json) {
 	return data;
 }
 
-Map<String, dynamic> searchArticleDataToJson(SearchArticleData entity) {
+Map<String, dynamic> collectionDataToJson(CollectionData entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
 	data['curPage'] = entity.curPage;
 	if (entity.datas != null) {
@@ -67,18 +65,9 @@ Map<String, dynamic> searchArticleDataToJson(SearchArticleData entity) {
 	return data;
 }
 
-searchArticleDataDataFromJson(SearchArticleDataData data, Map<String, dynamic> json) {
-	if (json['apkLink'] != null) {
-		data.apkLink = json['apkLink']?.toString();
-	}
-	if (json['audit'] != null) {
-		data.audit = json['audit']?.toInt();
-	}
+collectionDataDataFromJson(CollectionDataData data, Map<String, dynamic> json) {
 	if (json['author'] != null) {
 		data.author = json['author']?.toString();
-	}
-	if (json['canEdit'] != null) {
-		data.canEdit = json['canEdit'];
 	}
 	if (json['chapterId'] != null) {
 		data.chapterId = json['chapterId']?.toInt();
@@ -86,23 +75,14 @@ searchArticleDataDataFromJson(SearchArticleDataData data, Map<String, dynamic> j
 	if (json['chapterName'] != null) {
 		data.chapterName = json['chapterName']?.toString();
 	}
-	if (json['collect'] != null) {
-		data.collect = json['collect'];
-	}
 	if (json['courseId'] != null) {
 		data.courseId = json['courseId']?.toInt();
 	}
 	if (json['desc'] != null) {
 		data.desc = json['desc']?.toString();
 	}
-	if (json['descMd'] != null) {
-		data.descMd = json['descMd']?.toString();
-	}
 	if (json['envelopePic'] != null) {
 		data.envelopePic = json['envelopePic']?.toString();
-	}
-	if (json['fresh'] != null) {
-		data.fresh = json['fresh'];
 	}
 	if (json['id'] != null) {
 		data.id = json['id']?.toInt();
@@ -113,45 +93,17 @@ searchArticleDataDataFromJson(SearchArticleDataData data, Map<String, dynamic> j
 	if (json['niceDate'] != null) {
 		data.niceDate = json['niceDate']?.toString();
 	}
-	if (json['niceShareDate'] != null) {
-		data.niceShareDate = json['niceShareDate']?.toString();
-	}
 	if (json['origin'] != null) {
 		data.origin = json['origin']?.toString();
 	}
-	if (json['prefix'] != null) {
-		data.prefix = json['prefix']?.toString();
-	}
-	if (json['projectLink'] != null) {
-		data.projectLink = json['projectLink']?.toString();
+	if (json['originId'] != null) {
+		data.originId = json['originId']?.toInt();
 	}
 	if (json['publishTime'] != null) {
 		data.publishTime = json['publishTime']?.toInt();
 	}
-	if (json['selfVisible'] != null) {
-		data.selfVisible = json['selfVisible']?.toInt();
-	}
-	if (json['shareDate'] != null) {
-		data.shareDate = json['shareDate']?.toInt();
-	}
-	if (json['shareUser'] != null) {
-		data.shareUser = json['shareUser']?.toString();
-	}
-	if (json['superChapterId'] != null) {
-		data.superChapterId = json['superChapterId']?.toInt();
-	}
-	if (json['superChapterName'] != null) {
-		data.superChapterName = json['superChapterName']?.toString();
-	}
-	if (json['tags'] != null) {
-		data.tags = new List<dynamic>();
-		data.tags.addAll(json['tags']);
-	}
 	if (json['title'] != null) {
 		data.title = json['title']?.toString();
-	}
-	if (json['type'] != null) {
-		data.type = json['type']?.toInt();
 	}
 	if (json['userId'] != null) {
 		data.userId = json['userId']?.toInt();
@@ -165,38 +117,21 @@ searchArticleDataDataFromJson(SearchArticleDataData data, Map<String, dynamic> j
 	return data;
 }
 
-Map<String, dynamic> searchArticleDataDataToJson(SearchArticleDataData entity) {
+Map<String, dynamic> collectionDataDataToJson(CollectionDataData entity) {
 	final Map<String, dynamic> data = new Map<String, dynamic>();
-	data['apkLink'] = entity.apkLink;
-	data['audit'] = entity.audit;
 	data['author'] = entity.author;
-	data['canEdit'] = entity.canEdit;
 	data['chapterId'] = entity.chapterId;
 	data['chapterName'] = entity.chapterName;
-	data['collect'] = entity.collect;
 	data['courseId'] = entity.courseId;
 	data['desc'] = entity.desc;
-	data['descMd'] = entity.descMd;
 	data['envelopePic'] = entity.envelopePic;
-	data['fresh'] = entity.fresh;
 	data['id'] = entity.id;
 	data['link'] = entity.link;
 	data['niceDate'] = entity.niceDate;
-	data['niceShareDate'] = entity.niceShareDate;
 	data['origin'] = entity.origin;
-	data['prefix'] = entity.prefix;
-	data['projectLink'] = entity.projectLink;
+	data['originId'] = entity.originId;
 	data['publishTime'] = entity.publishTime;
-	data['selfVisible'] = entity.selfVisible;
-	data['shareDate'] = entity.shareDate;
-	data['shareUser'] = entity.shareUser;
-	data['superChapterId'] = entity.superChapterId;
-	data['superChapterName'] = entity.superChapterName;
-	if (entity.tags != null) {
-		data['tags'] =  [];
-	}
 	data['title'] = entity.title;
-	data['type'] = entity.type;
 	data['userId'] = entity.userId;
 	data['visible'] = entity.visible;
 	data['zan'] = entity.zan;

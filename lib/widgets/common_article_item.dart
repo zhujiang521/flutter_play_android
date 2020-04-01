@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:play/bean/article_entity.dart';
 import 'package:play/widgets/common_web_page.dart';
 
-class HomeArticleItem extends StatelessWidget {
-  const HomeArticleItem({
+class CommonArticleItem extends StatelessWidget {
+  const CommonArticleItem({
     Key key,
     @required ArticleDataData articleList,
   })  : _articleList = articleList,

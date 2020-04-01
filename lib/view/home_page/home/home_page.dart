@@ -7,10 +7,10 @@ import 'package:play/bean/banner_entity.dart';
 import 'package:play/bean/top_article_entity.dart';
 import 'package:play/costants/contants.dart';
 import 'package:play/utils/net_utils.dart';
+import 'package:play/widgets/common_article_item.dart';
 import 'package:play/widgets/common_loading.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-import 'home_article_item.dart';
 import 'home_banner.dart';
 import 'search/home_search_page.dart';
 
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
               onLoading: _onLoading,
               child: ListView.builder(
                 itemBuilder: (c, i) =>
-                    HomeArticleItem(articleList: _articleList[i]),
+                    CommonArticleItem(articleList: _articleList[i]),
                 itemCount: _articleList.length,
               ),
             )

@@ -163,7 +163,7 @@ class _LoginViewState extends State<LoginView> {
       var data = json.decode(value);
       if (data["errorCode"] == 0) {
         LoginEntity loginEntity = LoginEntity().fromJson(data);
-        DataUtils().saveLoginInfo(loginEntity.data,username,password);
+        DataUtils.saveLoginInfo(loginEntity.data,username,password);
         Navigator.pop(context);
         eventBus.fire(LoginEvent());
         ToastUtils.showToast("登录成功！");

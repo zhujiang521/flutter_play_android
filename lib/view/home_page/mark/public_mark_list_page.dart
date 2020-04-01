@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:play/bean/article_entity.dart';
 import 'package:play/costants/contants.dart';
 import 'package:play/utils/net_utils.dart';
-import 'package:play/view/home_page/home/home_article_item.dart';
+import 'package:play/widgets/common_article_item.dart';
 import 'package:play/widgets/common_loading.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -42,7 +42,7 @@ class _PublicMarkListPageState extends State<PublicMarkListPage> {
               onLoading: _onLoading,
               child: ListView.builder(
                 itemBuilder: (c, i) =>
-                    HomeArticleItem(articleList: _articleList[i]),
+                    CommonArticleItem(articleList: _articleList[i]),
                 itemCount: _articleList.length,
               ),
             )

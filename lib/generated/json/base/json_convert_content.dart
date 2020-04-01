@@ -7,6 +7,8 @@ import 'package:play/bean/top_article_entity.dart';
 import 'package:play/generated/json/top_article_entity_helper.dart';
 import 'package:play/bean/project_list_entity.dart';
 import 'package:play/generated/json/project_list_entity_helper.dart';
+import 'package:play/bean/collection_entity.dart';
+import 'package:play/generated/json/collection_entity_helper.dart';
 import 'package:play/bean/article_entity.dart';
 import 'package:play/generated/json/article_entity_helper.dart';
 import 'package:play/bean/search_article_entity.dart';
@@ -36,7 +38,10 @@ class JsonConvert<T> {
 			return topArticleEntityFromJson(data as TopArticleEntity, json) as T;			case TopArticleData:
 			return topArticleDataFromJson(data as TopArticleData, json) as T;			case ProjectListEntity:
 			return projectListEntityFromJson(data as ProjectListEntity, json) as T;			case ProjectListData:
-			return projectListDataFromJson(data as ProjectListData, json) as T;			case ArticleEntity:
+			return projectListDataFromJson(data as ProjectListData, json) as T;			case CollectionEntity:
+			return collectionEntityFromJson(data as CollectionEntity, json) as T;			case CollectionData:
+			return collectionDataFromJson(data as CollectionData, json) as T;			case CollectionDataData:
+			return collectionDataDataFromJson(data as CollectionDataData, json) as T;			case ArticleEntity:
 			return articleEntityFromJson(data as ArticleEntity, json) as T;			case ArticleData:
 			return articleDataFromJson(data as ArticleData, json) as T;			case ArticleDataData:
 			return articleDataDataFromJson(data as ArticleDataData, json) as T;			case ArticleDataDatasTag:
@@ -62,7 +67,10 @@ class JsonConvert<T> {
 			return topArticleEntityToJson(data as TopArticleEntity);			case TopArticleData:
 			return topArticleDataToJson(data as TopArticleData);			case ProjectListEntity:
 			return projectListEntityToJson(data as ProjectListEntity);			case ProjectListData:
-			return projectListDataToJson(data as ProjectListData);			case ArticleEntity:
+			return projectListDataToJson(data as ProjectListData);			case CollectionEntity:
+			return collectionEntityToJson(data as CollectionEntity);			case CollectionData:
+			return collectionDataToJson(data as CollectionData);			case CollectionDataData:
+			return collectionDataDataToJson(data as CollectionDataData);			case ArticleEntity:
 			return articleEntityToJson(data as ArticleEntity);			case ArticleData:
 			return articleDataToJson(data as ArticleData);			case ArticleDataData:
 			return articleDataDataToJson(data as ArticleDataData);			case ArticleDataDatasTag:
@@ -88,7 +96,10 @@ class JsonConvert<T> {
 			return TopArticleEntity().fromJson(json);			case 'TopArticleData':
 			return TopArticleData().fromJson(json);			case 'ProjectListEntity':
 			return ProjectListEntity().fromJson(json);			case 'ProjectListData':
-			return ProjectListData().fromJson(json);			case 'ArticleEntity':
+			return ProjectListData().fromJson(json);			case 'CollectionEntity':
+			return CollectionEntity().fromJson(json);			case 'CollectionData':
+			return CollectionData().fromJson(json);			case 'CollectionDataData':
+			return CollectionDataData().fromJson(json);			case 'ArticleEntity':
 			return ArticleEntity().fromJson(json);			case 'ArticleData':
 			return ArticleData().fromJson(json);			case 'ArticleDataData':
 			return ArticleDataData().fromJson(json);			case 'ArticleDataDatasTag':
@@ -115,7 +126,10 @@ class JsonConvert<T> {
 			return List<TopArticleEntity>();			case 'TopArticleData':
 			return List<TopArticleData>();			case 'ProjectListEntity':
 			return List<ProjectListEntity>();			case 'ProjectListData':
-			return List<ProjectListData>();			case 'ArticleEntity':
+			return List<ProjectListData>();			case 'CollectionEntity':
+			return List<CollectionEntity>();			case 'CollectionData':
+			return List<CollectionData>();			case 'CollectionDataData':
+			return List<CollectionDataData>();			case 'ArticleEntity':
 			return List<ArticleEntity>();			case 'ArticleData':
 			return List<ArticleData>();			case 'ArticleDataData':
 			return List<ArticleDataData>();			case 'ArticleDataDatasTag':

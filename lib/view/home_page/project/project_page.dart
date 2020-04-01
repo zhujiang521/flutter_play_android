@@ -50,7 +50,7 @@ class _ProjectPageState extends State<ProjectPage>
                 indicatorSize: TabBarIndicatorSize.label,
                 labelStyle: TextStyle(color: Colors.white, fontSize: 20),
                 unselectedLabelStyle:
-                    TextStyle(color: Colors.grey, fontSize: 19),
+                    TextStyle(color: Colors.grey, fontSize: 18),
                 labelColor: Colors.white,
                 labelPadding: EdgeInsets.all(0.0),
                 indicatorPadding: EdgeInsets.all(0.0),

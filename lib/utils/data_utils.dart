@@ -41,9 +41,8 @@ class DataUtils {
     return isLogin != null && isLogin;
   }
 
-  Future<void> saveLoginInfo(
+  static Future<void> saveLoginInfo(
       LoginData loginData, String username, String password) async {
-    cookie = "loginUserName=$username;loginUserPassword=$password";
     SharedPreferences sp = await SharedPreferences.getInstance();
     sp
       ..setString(SP_USERNAME, username)
@@ -60,9 +59,9 @@ class DataUtils {
       ..setString(SP_TOKEN, loginData.token)
       ..setInt(SP_TYPE, loginData.type)
       ..setString(SP_username, loginData.username)
-      ..setString(SP_COOKIE, cookie)
+      ..setString(
+          SP_COOKIE, "loginUserName=$username;loginUserPassword=$password")
       ..setBool(SP_IS_LOGIN, true);
-
   }
 
   static Future<void> clearLoginInfo() async {
@@ -109,15 +108,11 @@ class DataUtils {
     return user;
   }
 
-  Map<String, String> _headerMap;
-  String cookie;
-
-  Map<String, String> getHeader() {
-    if (null == _headerMap) {
-      _headerMap = Map();
-      _headerMap["Cookie"] = cookie;
-    }
-    return _headerMap;
+  static Future<Map<String, String>> getHeader() async {
+    Map<String, String> headerMap = Map();
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    headerMap = Map();
+    headerMap["Cookie"] = sp.getString(SP_COOKIE);
+    return headerMap;
   }
-
 }

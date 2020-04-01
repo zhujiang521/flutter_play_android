@@ -17,7 +17,7 @@ class CommonWebPage extends StatefulWidget {
   final int id;
   final bool collect;
 
-  CommonWebPage({Key key, this.title, this.url, this.id,this.collect})
+  CommonWebPage({Key key, this.title, this.url, this.id, this.collect})
       : assert(title != null),
         assert(url != null),
         assert(id != null),
@@ -28,7 +28,7 @@ class CommonWebPage extends StatefulWidget {
 }
 
 class _CommonWebPageState extends State<CommonWebPage> {
-  List<Map<String, Object>> list = new List();
+  List<Map<String, Object>> list = List();
   bool isLoading = true;
   bool isDialog = false;
   FlutterWebviewPlugin _flutterWebviewPlugin = FlutterWebviewPlugin();
@@ -37,15 +37,10 @@ class _CommonWebPageState extends State<CommonWebPage> {
   @override
   void initState() {
     super.initState();
-    if(widget.collect!=null && widget.collect){
+    if (widget.collect != null && widget.collect) {
       collect = "取消收藏";
     }
-    list
-      ..add({"title": collect, "icon": Icons.favorite_border})
-      ..add({"title": "复制链接", "icon": Icons.link})
-      ..add({"title": "浏览器打开", "icon": Icons.open_in_browser})
-      ..add({"title": "微信分享", "icon": Icons.share})
-      ..add({"title": "刷新", "icon": Icons.refresh});
+
     //监听url变化
     _flutterWebviewPlugin.onStateChanged.listen((state) {
       if (state.type == WebViewState.finishLoad) {
@@ -65,6 +60,17 @@ class _CommonWebPageState extends State<CommonWebPage> {
 
   @override
   Widget build(BuildContext context) {
+    list.clear();
+    list
+      ..add({
+        "title": collect,
+        "icon": collect == "收藏" ? Icons.favorite_border : Icons.favorite
+      })
+      ..add({"title": "复制链接", "icon": Icons.link})
+      ..add({"title": "浏览器打开", "icon": Icons.open_in_browser})
+      ..add({"title": "微信分享", "icon": Icons.share})
+      ..add({"title": "刷新", "icon": Icons.refresh});
+
     List<Widget> _appBarTitle = [
       Container(
         width: ScreenUtil.getInstance().setWidth(680),
@@ -225,21 +231,28 @@ class _CommonWebPageState extends State<CommonWebPage> {
   void addArticleFavorite() {
     DataUtils.isLogin().then((isLogin) {
       if (isLogin) {
-        NetUtils.postAndCookie(
-                AppUrls.POST_COLLECT_ARTICLE + widget.id.toString() + "/json")
-            .then((value) async {
-          var data = json.decode(value);
-          if (data["errorCode"] == 0) {
-            ToastUtils.showToast("收藏成功");
-            collect = "取消收藏";
-          } else {
-            ToastUtils.showToast("收藏失败");
-          }
-          print("收藏$value");
-        });
+        collectArticle();
       } else {
         ToastUtils.showToast("请先登录！");
       }
+    });
+  }
+
+  void collectArticle() {
+    NetUtils.post(collect == "收藏"
+            ? AppUrls.POST_COLLECT_ARTICLE + widget.id.toString() + "/json"
+            : AppUrls.POST_UNCOLLECT_ARTICLE + widget.id.toString() + "/json")
+        .then((value) async {
+      var data = json.decode(value);
+      if (data["errorCode"] == 0) {
+        ToastUtils.showToast("$collect成功");
+        setState(() {
+          collect = collect == "收藏"?"取消收藏":"收藏";
+        });
+      } else {
+        ToastUtils.showToast("$collect失败");
+      }
+      print("$collect$value");
     });
   }
 

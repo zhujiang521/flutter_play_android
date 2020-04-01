@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:play/utils/data_utils.dart';
 
 class NetUtils {
-
-
   // get请求的封装，传入的两个参数分别是请求URL和请求参数，请求参数以map的形式传入，会在方法体中自动拼接到URL后面
   static Future<String> get(String url, {Map<String, String> params}) async {
     if (params != null && params.isNotEmpty) {
@@ -16,13 +15,16 @@ class NetUtils {
       paramStr = paramStr.substring(0, paramStr.length - 1);
       url += paramStr;
     }
-    http.Response res = await http.get(url);
+    var header = await DataUtils.getHeader();
+    http.Response res = await http.get(url,headers: header);
     return res.body;
   }
 
   // post请求
   static Future<String> post(String url, {Map<String, String> params}) async {
-    http.Response res = await http.post(url, body: params);
+    var header = await DataUtils.getHeader();
+    print("网络请求POST：$url");
+    http.Response res = await http.post(url, body: params,headers: header);
     return res.body;
   }
 
@@ -40,8 +42,7 @@ class NetUtils {
       paramStr = paramStr.substring(0, paramStr.length - 1);
       url += paramStr;
     }
-    Map<String, String> header = Map();
-    header['Cookie'] = "loginUserName=17695500274;loginUserPassword=zhujiang1314";
+    var header = await DataUtils.getHeader();
     http.Response res = await http.get(url, headers: header);
     return res.body;
   }
@@ -51,7 +52,8 @@ class NetUtils {
   static Future<String> postAndCookie(String url,
       {Map<String, String> params}) async {
     Map<String, String> header = Map();
-    header['Cookie'] = "loginUserName=17695500274;loginUserPassword=zhujiang1314";
+    header['Cookie'] =
+        "loginUserName=17695500274;loginUserPassword=zhujiang1314";
     http.Response res = await http.post(url, body: params, headers: header);
     return res.body;
   }

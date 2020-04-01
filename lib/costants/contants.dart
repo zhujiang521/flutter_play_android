@@ -40,7 +40,10 @@ abstract class AppUrls {
   // 收藏站内文章 lg/collect/1165/json
   static const String POST_COLLECT_ARTICLE = BASE_URL + 'lg/collect/';
 
-  // 收藏站内文章 lg/collect/1165/json
+  // 取消收藏站内文章 lg/collect/1165/json
+  static const String POST_UNCOLLECT_ARTICLE = BASE_URL + 'lg/uncollect_originId/';
+
+  // 收藏文章列表
   static const String GET_COLLECT_ARTICLE = BASE_URL + 'lg/collect/list/';
 
 }
