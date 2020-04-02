@@ -5,6 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:play/bean/hot_key_entity.dart';
 import 'package:play/costants/contants.dart';
 import 'package:play/utils/net_utils.dart';
+import 'package:play/utils/theme_utils.dart';
+import 'package:play/utils/toast.dart';
+import 'package:play/widgets/common_loading.dart';
 
 import 'search_result_page.dart';
 
@@ -17,19 +20,23 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
   final searchKeyCtrl = TextEditingController(text: '');
   List<HotKeyData> _data = List();
   List<Widget> widgetList = List();
+  List<Widget> commonList = List();
 
   @override
   void initState() {
     super.initState();
+    commonList.add(CommonLoading());
     _initData();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
-      body: Wrap(children: widgetList),
-    );
+        appBar: buildAppBar(context),
+        body: Container(
+          margin: EdgeInsets.all(ScreenUtil.getInstance().setWidth(25)),
+          child: Wrap(children: _data.length > 0 ? widgetList : commonList),
+        ));
   }
 
   AppBar buildAppBar(BuildContext context) {
@@ -43,7 +50,7 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
             child: TextField(
               controller: searchKeyCtrl,
               decoration: InputDecoration(
-                  hintText: "请输入搜索关键字",
+                  hintText: " 请输入搜索关键字",
                   hintStyle: TextStyle(
                       color: Colors.white,
                       fontSize: ScreenUtil.getInstance().setSp(40)),
@@ -57,22 +64,26 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
             child: Container(
               margin:
                   EdgeInsets.only(left: ScreenUtil.getInstance().setWidth(25)),
-              width: 40,
-              height: 40,
+              width: ScreenUtil.getInstance().setWidth(200),
+              height: ScreenUtil.getInstance().setWidth(200),
               alignment: Alignment.center,
               child: Text(
                 '搜索',
-                style: TextStyle(fontSize: ScreenUtil.getInstance().setSp(48)),
+                style: TextStyle(
+                    fontSize: ScreenUtil.getInstance().setSp(48),
+                    color: Colors.white),
               ),
             ),
             onTap: () {
-              setState(() {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            SearchResultPage(searchKeyCtrl.text.trim())));
-              });
+              if (searchKeyCtrl.text.trim().isEmpty) {
+                ToastUtils.showToast("搜索关键字不能为空");
+                return;
+              }
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          SearchResultPage(searchKeyCtrl.text.trim())));
             },
           )
         ],
@@ -94,7 +105,20 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
             _data.addAll(banner.data);
             for (int i = 0; i < _data.length; i++) {
               widgetList.add(
-                FlatButton(
+                Container(
+                  margin: EdgeInsets.only(
+                      left: ScreenUtil.getInstance().setWidth(20),
+                      right: ScreenUtil.getInstance().setWidth(20),
+                      top: ScreenUtil.getInstance().setWidth(20)),
+                  child: FlatButton(
+                    color: ThemeUtils.currentColorTheme,
+                    highlightColor: ThemeUtils.currentColorTheme,
+                    colorBrightness: Brightness.dark,
+                    splashColor: ThemeUtils.currentColorTheme,
+                    child: Text(_data[i].name),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(
+                            ScreenUtil.getInstance().setWidth(20))),
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -102,7 +126,8 @@ class _HomeSearchPageState extends State<HomeSearchPage> {
                               builder: (context) =>
                                   SearchResultPage(_data[i].name)));
                     },
-                    child: Text(_data[i].name)),
+                  ),
+                ),
               );
             }
           });

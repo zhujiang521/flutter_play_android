@@ -42,7 +42,7 @@ class _ProjectPageState extends State<ProjectPage>
                 controller: _tabController,
                 isScrollable: true,
                 indicatorColor: Colors.white,
-                indicatorSize: TabBarIndicatorSize.label,
+                indicatorSize: TabBarIndicatorSize.tab,
                 labelStyle: TextStyle(color: Colors.white, fontSize: 20),
                 unselectedLabelStyle:
                     TextStyle(color: Colors.grey, fontSize: 18),
