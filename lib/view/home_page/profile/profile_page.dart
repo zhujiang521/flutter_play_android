@@ -2,44 +2,51 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:play/bean/coin_user_entity.dart';
 import 'package:play/costants/contants.dart';
 import 'package:play/utils/data_utils.dart';
 import 'package:play/utils/event_bus.dart';
 import 'package:play/utils/net_utils.dart';
 import 'package:play/utils/theme_utils.dart';
 import 'package:play/utils/toast.dart';
-import 'package:play/view/account/login_view.dart';
+import 'package:play/view/account/login_page.dart';
 import 'package:play/utils/change_theme_page.dart';
 import 'package:play/widgets/common_web_page.dart';
 import 'package:play/widgets/customdialog.dart';
 
+import 'profile_about_page.dart';
+import 'profile_coin_page.dart';
+import 'profile_coin_ranking_page.dart';
 import 'profile_collection_page.dart';
 import 'profile_details_page.dart';
 
-class ProfileView extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
   @override
-  _ProfileViewState createState() => _ProfileViewState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _ProfileViewState extends State<ProfileView> {
+class _ProfilePageState extends State<ProfilePage> {
   final List menuTitles = [
     "我的积分",
     "我的收藏",
     "我的博客",
-    "稍后阅读",
     "主题设置",
+    "关于作者",
     "退出登录",
   ];
   final List menuIcons = [
     Icons.message,
     Icons.map,
     Icons.account_balance_wallet,
-    Icons.question_answer,
     Icons.settings,
+    Icons.info,
     Icons.backspace,
   ];
   String userAvatar;
   String userName;
+  int level = 0;
+  int rank = 0;
+  int coinCount = 0;
 
   @override
   void initState() {
@@ -63,6 +70,19 @@ class _ProfileViewState extends State<ProfileView> {
           "我的",
           style: TextStyle(color: Colors.white),
         ),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(
+                Icons.assessment,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ProfileCoinRankingPage()));
+              })
+        ],
         elevation: 0.1,
       ),
       body: buildListView(),
@@ -85,7 +105,10 @@ class _ProfileViewState extends State<ProfileView> {
                 switch (index) {
                   case 0:
                     if (isLogin) {
-                      ToastUtils.showToast("我的积分");
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProfileCoinPage()));
                     } else {
                       _login();
                     }
@@ -109,13 +132,16 @@ class _ProfileViewState extends State<ProfileView> {
                             )));
                     break;
                   case 3:
-                    ToastUtils.showToast("稍后阅读");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ChangeThemePage()));
                     break;
                   case 4:
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ChangeThemePage()));
+                            builder: (context) => ProfileAboutPage()));
                     break;
                   case 5:
                     _logout();
@@ -178,12 +204,20 @@ class _ProfileViewState extends State<ProfileView> {
               },
             ),
             SizedBox(
-              height: 10.0,
+              height: ScreenUtil.getInstance().setHeight(20),
             ),
             Text(
               userName ??= "未登录",
               style: TextStyle(
                   color: Colors.white, fontSize: ScreenUtil().setSp(50)),
+            ),
+            SizedBox(
+              height: ScreenUtil.getInstance().setHeight(20),
+            ),
+            Text(
+              "等级 $level   排名 $rank   积分 $coinCount",
+              style: TextStyle(
+                  color: Colors.white, fontSize: ScreenUtil().setSp(40)),
             ),
           ],
         ),
@@ -195,17 +229,33 @@ class _ProfileViewState extends State<ProfileView> {
     DataUtils.isLogin().then((isLogin) {
       if (isLogin) {
         DataUtils.getUserInfo().then((login) {
-          if (mounted) {
-            setState(() {
-              userAvatar = login.icon == ""
-                  ? "http://pic2.zhimg.com/50/v2-fb824dbb6578831f7b5d92accdae753a_hd.jpg"
-                  : login.icon;
-              userName = login.nickname;
-            });
-          }
+          NetUtils.get(AppUrls.GET_COIN_USER).then((value) async {
+            var data = json.decode(value);
+            CoinUserEntity banner = CoinUserEntity().fromJson(data);
+            if (mounted) {
+              setState(() {
+                if (banner.errorCode == 0) {
+                  level = banner.data.level;
+                  coinCount = banner.data.coinCount;
+                  rank = banner.data.rank;
+                } else {
+                  level = 0;
+                  coinCount = 0;
+                  rank = 0;
+                }
+                userAvatar = login.icon == ""
+                    ? "http://pic2.zhimg.com/50/v2-fb824dbb6578831f7b5d92accdae753a_hd.jpg"
+                    : login.icon;
+                userName = login.nickname;
+              });
+            }
+          });
         });
       } else {
         setState(() {
+          level = 0;
+          coinCount = 0;
+          rank = 0;
           userAvatar = null;
           userName = null;
         });
@@ -215,7 +265,7 @@ class _ProfileViewState extends State<ProfileView> {
 
   void _login() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => LoginView()));
+        context, MaterialPageRoute(builder: (context) => LoginPage()));
     ToastUtils.showToast("去登录");
   }
 

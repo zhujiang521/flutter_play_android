@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:play/bean/article_entity.dart';
 import 'package:play/bean/collection_entity.dart';
 import 'package:play/costants/contants.dart';
 import 'package:play/utils/net_utils.dart';

@@ -35,9 +35,12 @@ flutter:
     - assets/images/ic_head.jpeg
     - assets/images/ic_eye.png
     - assets/images/placeholder.png
+    - assets/images/we_chart_mark.jpg
+    - assets/images/alipay.jpg
+    - assets/images/we_chart_pay.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/assets-and-images/#resolution-aware.
+  # https://flutter.dev/assets-and-images/#resolution-aware. we_chart_mark.jpg
 
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages

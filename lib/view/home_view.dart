@@ -4,7 +4,7 @@ import 'package:play/widgets/bottomnavigation.dart';
 
 import 'home_page/home/home_page.dart';
 import 'home_page/mark/public_mark_page.dart';
-import 'home_page/profile/profile_view.dart';
+import 'home_page/profile/profile_page.dart';
 import 'home_page/project/project_page.dart';
 
 class HomeView extends StatefulWidget {
@@ -24,7 +24,7 @@ class _HomeViewState extends State<HomeView> {
       ..add(HomePage())
       ..add(ProjectPage())
       ..add(PublicMarkPage())
-      ..add(ProfileView());
+      ..add(ProfilePage());
     super.initState(); //无名无参需要调用
   }
 

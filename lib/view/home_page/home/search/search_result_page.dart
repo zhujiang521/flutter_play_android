@@ -87,4 +87,11 @@ class _SearchResultPageState extends State<SearchResultPage> {
       }
     });
   }
+
+  @override
+  void dispose() {
+    _refreshController.dispose();
+    super.dispose();
+  }
+
 }

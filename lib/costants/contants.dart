@@ -46,4 +46,13 @@ abstract class AppUrls {
   // 收藏文章列表
   static const String GET_COLLECT_ARTICLE = BASE_URL + 'lg/collect/list/';
 
+  // 积分排行榜 lg/coin/list/1/json
+  static const String GET_RANKING_LIST = BASE_URL + 'coin/rank/';
+
+  // 个人积分获取列表
+  static const String GET_COIN_LIST = BASE_URL + 'lg/coin/list/';
+
+  // 个人积分
+  static const String GET_COIN_USER = BASE_URL + 'lg/coin/userinfo/json';
+
 }

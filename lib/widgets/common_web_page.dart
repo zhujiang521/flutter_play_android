@@ -270,6 +270,7 @@ class _CommonWebPageState extends State<CommonWebPage> {
 //    } else {
 //      throw 'Could not launch $widget.url';
 //    }
+    ToastUtils.showToast("跳转失败，可尝试复制链接并打开");
   }
 
   /// 分享到微信
