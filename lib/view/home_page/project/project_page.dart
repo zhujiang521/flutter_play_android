@@ -1,12 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:play/bean/article_entity.dart';
 import 'package:play/bean/classify_project_entity.dart';
 import 'package:play/costants/contants.dart';
 import 'package:play/utils/net_utils.dart';
 import 'package:play/widgets/common_loading.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'project_list_page.dart';
 
@@ -19,9 +17,6 @@ class _ProjectPageState extends State<ProjectPage>
     with TickerProviderStateMixin {
   List<ClassifyProjectData> _data = List();
   TabController _tabController;
-  List<ArticleDataData> _articleList = List();
-  RefreshController _refreshController =
-      RefreshController(initialRefresh: false);
 
   @override
   void initState() {
