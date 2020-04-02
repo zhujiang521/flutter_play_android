@@ -101,6 +101,9 @@ class _ProfileCollectionPageState extends State<ProfileCollectionPage> {
       CollectionEntity banner = CollectionEntity().fromJson(data);
       if (banner.errorCode == 0) {
         if (mounted)
+          if(_page == 0){
+            _articleList.clear();
+          }
           setState(() {
             _articleList.addAll(banner.data.datas);
           });

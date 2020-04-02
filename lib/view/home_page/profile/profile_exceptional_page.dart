@@ -16,7 +16,7 @@ class _ProfileExceptionalPageState extends State<ProfileExceptionalPage> {
       body: Container(
         width: ScreenUtil.getInstance().width,
         color: ThemeUtils.currentColorTheme,
-        child: Column(
+        child: ListView(
           children: <Widget>[
             SizedBox(
               height: ScreenUtil.getInstance().setHeight(30),

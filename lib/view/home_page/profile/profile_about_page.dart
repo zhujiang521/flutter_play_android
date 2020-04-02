@@ -20,8 +20,8 @@ class _ProfileAboutPageState extends State<ProfileAboutPage> {
       appBar: CustomAppBar(pageTitle: "关于作者"),
       body: Container(
         color: ThemeUtils.currentColorTheme,
-        child: Column(
-          children: children(context),
+        child: ListView(
+          children: children(context)
         ),
       ),
     );
