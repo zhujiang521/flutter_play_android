@@ -10,11 +10,11 @@
 
 废话不多说，直接来看一下项目的部分截图吧：
 
-| <img src="images/home.png" alt="image-20200402105301676" style="zoom:25%;" /> | <img src="images/project.png" alt="image-20200402105301676" style="zoom:25%;" /> | <img src="images/wxarticle.png" alt="image-20200402105301676" style="zoom:25%;" /> |
+| <img src="images/home.png" alt="" style="zoom:25%;" /> | <img src="images/project.png" alt="" style="zoom:25%;" /> | <img src="images/wxarticle.png" alt="" style="zoom:25%;" /> |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| <img src="images/profile.png" alt="image-20200402105301676" style="zoom:25%;" /> | <img src="images/about.png" alt="image-20200402105301676" style="zoom:25%;" /> | <img src="images/article.png" alt="image-20200402105301676" style="zoom:25%;" /> |
-| <img src="images/coin.png" alt="image-20200402105301676" style="zoom:25%;" /> | <img src="images/collection.png" alt="image-20200402105301676" style="zoom:25%;" /> | <img src="images/search.png" alt="image-20200402105301676" style="zoom:25%;" /> |
-| <img src="images/theme.png" alt="image-20200402105301676" style="zoom:25%;" /> | <img src="user.png" alt="image-20200402105301676" style="zoom:25%;" /> | <img src="images/articlea.png" alt="image-20200402105301676" style="zoom:25%;" /> |
+| <img src="images/profile.png" alt="" style="zoom:25%;" /> | <img src="images/about.png" alt="" style="zoom:25%;" /> | <img src="images/article.png" alt="" style="zoom:25%;" /> |
+| <img src="images/coin.png" alt="" style="zoom:25%;" /> | <img src="images/collection.png" alt="" style="zoom:25%;" /> | <img src="images/search.png" alt="" style="zoom:25%;" /> |
+| <img src="images/theme.png" alt="" style="zoom:25%;" /> | <img src="images/user.png" alt="" style="zoom:25%;" /> | <img src="images/articlea.png" alt="" style="zoom:25%;" /> |
 
 ### 依赖库
 
