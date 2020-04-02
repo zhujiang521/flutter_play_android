@@ -53,7 +53,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget>
      */
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: ScreenUtil().setHeight(190),
+      height: ScreenUtil().setHeight(200),
       color: Colors.red,
       child: BottomNavigationBar(
         items: _navigationViews

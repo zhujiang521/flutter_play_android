@@ -78,7 +78,7 @@ class _ProfileCoinRankingPageState extends State<ProfileCoinRankingPage> {
       var data = json.decode(value);
       RankEntity banner = RankEntity().fromJson(data);
       if (banner.errorCode == 0) {
-        if (_page == 0) _data.clear();
+        if (_page == 1) _data.clear();
         _data.addAll(banner.data.datas);
         if (mounted) setState(() {});
       }

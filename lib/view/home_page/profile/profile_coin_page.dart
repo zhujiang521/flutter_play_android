@@ -78,7 +78,7 @@ class _ProfileCoinPageState extends State<ProfileCoinPage> {
       var data = json.decode(value);
       CoinEntity banner = CoinEntity().fromJson(data);
       if (banner.errorCode == 0) {
-        if (_page == 0) _data.clear();
+        if (_page == 1) _data.clear();
         _data.addAll(banner.data.datas);
         if (mounted) setState(() {});
       }

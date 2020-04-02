@@ -73,7 +73,9 @@ class _CommonWebPageState extends State<CommonWebPage> {
 
     List<Widget> _appBarTitle = [
       Container(
-        width: ScreenUtil.getInstance().setWidth(680),
+        width: isLoading
+            ? ScreenUtil.getInstance().setWidth(640)
+            : ScreenUtil.getInstance().setWidth(720),
         child: Text(
           widget.title,
           style: TextStyle(
@@ -86,7 +88,7 @@ class _CommonWebPageState extends State<CommonWebPage> {
     ];
     if (isLoading) {
       _appBarTitle.add(SizedBox(
-        width: 10.0,
+        width: ScreenUtil.getInstance().setWidth(20),
       ));
       _appBarTitle.add(CupertinoActivityIndicator());
     }
@@ -139,7 +141,7 @@ class _CommonWebPageState extends State<CommonWebPage> {
 
   Container container() {
     return Container(
-      height: 290,
+      height: ScreenUtil.getInstance().setHeight(600),
       color: Colors.black12,
       padding: EdgeInsets.all(15),
       alignment: Alignment.center,
@@ -179,8 +181,8 @@ class _CommonWebPageState extends State<CommonWebPage> {
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(
-            top: 10,
-            bottom: 10,
+            top: ScreenUtil.getInstance().setHeight(20),
+            bottom: ScreenUtil.getInstance().setHeight(20),
           ),
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -247,7 +249,7 @@ class _CommonWebPageState extends State<CommonWebPage> {
       if (data["errorCode"] == 0) {
         ToastUtils.showToast("$collect成功");
         setState(() {
-          collect = collect == "收藏"?"取消收藏":"收藏";
+          collect = collect == "收藏" ? "取消收藏" : "收藏";
         });
       } else {
         ToastUtils.showToast("$collect失败");
