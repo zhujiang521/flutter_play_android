@@ -4,11 +4,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
-import 'package:play/splash_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:play/widgets/splash_page.dart';
 import 'package:play/utils/data_utils.dart';
 import 'package:play/utils/event_bus.dart';
 import 'package:play/utils/theme_utils.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import 'view/home_view.dart';
 
 void main() {
   runApp(
@@ -73,8 +76,8 @@ class _OscWidgetState extends State<OscWidget> {
                 primaryColor: themeColor,
                 platform: TargetPlatform.iOS, //右滑返回
               ),
-              title: '工程管控平台',
-              home: SplashPage(),
+              title: '玩安卓',
+              home: HomeView(),
             ));
   }
 }

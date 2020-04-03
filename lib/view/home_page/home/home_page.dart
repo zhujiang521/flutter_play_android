@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:play/bean/article_entity.dart';
 import 'package:play/bean/banner_entity.dart';
 import 'package:play/bean/top_article_entity.dart';
@@ -34,6 +35,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.instance = ScreenUtil(width: 1080, height: 1920)..init(context);
     return Scaffold(
       appBar: AppBar(
         title: Text("首页", style: TextStyle(color: Colors.white)),
