@@ -81,7 +81,7 @@ class _ProfileCollectionPageState extends State<ProfileCollectionPage> {
             border: Border.all(
                 color: Colors.red,
                 width: ScreenUtil.getInstance().setWidth(10))),
-        margin: EdgeInsets.all(ScreenUtil.getInstance().setWidth(10.5)),
+        margin: EdgeInsets.all(ScreenUtil.getInstance().setWidth(12)),
         alignment: Alignment.center,
         width: ScreenUtil.getInstance().setWidth(200),
         child: Text(text,
