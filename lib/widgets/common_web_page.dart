@@ -247,9 +247,9 @@ class _CommonWebPageState extends State<CommonWebPage> {
         .then((value) async {
       var data = json.decode(value);
       if (data["errorCode"] == 0) {
-        ToastUtils.showToast("$collect成功");
         setState(() {
           collect = collect == "收藏" ? "取消收藏" : "收藏";
+          ToastUtils.showToast("${collect == "收藏" ? "取消收藏" : "收藏"}成功");
         });
       } else {
         ToastUtils.showToast("$collect失败");

@@ -1,12 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:play/bean/collection_entity.dart';
 import 'package:play/costants/contants.dart';
 import 'package:play/utils/net_utils.dart';
 import 'package:play/utils/toast.dart';
 import 'package:play/widgets/common_collection_article_item.dart';
 import 'package:play/widgets/common_loading.dart';
+import 'package:play/widgets/common_slide_button.dart';
 import 'package:play/widgets/custom_app_bar.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -40,19 +42,20 @@ class _ProfileCollectionPageState extends State<ProfileCollectionPage> {
                   onLoading: _onLoading,
                   child: ListView.builder(
                     itemBuilder: (c, i) {
-                      return Dismissible(
-                        onDismissed: (_) {
-                          //参数暂时没有用到，则用下划线表示
-                          unCollectArticle(_articleList[i].id,_articleList[i].originId);
-                          _articleList.removeAt(i);
-                        },
-                        key: Key(_articleList[i].id.toString()),
-                        child: CommonCollectionArticleItem(
-                            articleList: _articleList[i]),
-                        background: Container(
-                          color: Colors.red,
-                        ),
-                      );
+                      var key = GlobalKey<SlideButtonState>();
+                      return SlideButton(
+                          child: CommonCollectionArticleItem(
+                              articleList: _articleList[i]),
+                          singleButtonWidth:
+                              ScreenUtil.getInstance().setWidth(200),
+                          buttons: <Widget>[
+                            buildAction(key, "删除", Colors.red, () {
+                              unCollectArticle(
+                                  _articleList[i].id, _articleList[i].originId);
+                              _articleList.removeAt(i);
+                              key.currentState.close();
+                            }),
+                          ]);
                     },
                     itemCount: _articleList.length,
                   ),
@@ -61,19 +64,46 @@ class _ProfileCollectionPageState extends State<ProfileCollectionPage> {
         ));
   }
 
+  //构建button
+  InkWell buildAction(GlobalKey<SlideButtonState> key, String text, Color color,
+      GestureTapCallback tap) {
+    return InkWell(
+      onTap: tap,
+      child: Container(
+        decoration: BoxDecoration(
+            //设置填充颜色
+            color: Colors.red,
+            //设置10弧度的圆角
+            borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(4.0),
+                topRight: Radius.circular(4.0)),
+            //设置边框大小和颜色
+            border: Border.all(
+                color: Colors.red,
+                width: ScreenUtil.getInstance().setWidth(10))),
+        margin: EdgeInsets.all(ScreenUtil.getInstance().setWidth(10.5)),
+        alignment: Alignment.center,
+        width: ScreenUtil.getInstance().setWidth(200),
+        child: Text(text,
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: ScreenUtil.getInstance().setSp(38))),
+      ),
+    );
+  }
+
   void unCollectArticle(int id, int originId) {
 //    Map<String, String> map = Map();
 //    map["originId"] = originId.toString();
 //    print('originId:$originId');
-    NetUtils.post(AppUrls.POST_UNCOLLECT_ARTICLE + originId.toString() + "/json",)
-        .then((value) async {
+    NetUtils.post(
+      AppUrls.POST_UNCOLLECT_ARTICLE + originId.toString() + "/json",
+    ).then((value) async {
       var data = json.decode(value);
       print("取消取消 $data");
       if (data["errorCode"] == 0) {
-        setState(() {
-          // 提示
-          ToastUtils.showToast("取消收藏成功");
-        });
+        ToastUtils.showToast("取消收藏成功");
+        setState(() {});
       } else {
         // 提示
         ToastUtils.showToast("取消收藏失败");
@@ -100,13 +130,12 @@ class _ProfileCollectionPageState extends State<ProfileCollectionPage> {
       var data = json.decode(value);
       CollectionEntity banner = CollectionEntity().fromJson(data);
       if (banner.errorCode == 0) {
-        if (mounted)
-          if(_page == 0){
-            _articleList.clear();
-          }
-          setState(() {
-            _articleList.addAll(banner.data.datas);
-          });
+        if (mounted) if (_page == 0) {
+          _articleList.clear();
+        }
+        setState(() {
+          _articleList.addAll(banner.data.datas);
+        });
       }
     });
   }

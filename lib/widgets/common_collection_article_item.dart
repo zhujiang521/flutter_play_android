@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:play/bean/article_entity.dart';
 import 'package:play/bean/collection_entity.dart';
 import 'package:play/widgets/common_web_page.dart';
 
