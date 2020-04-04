@@ -4,8 +4,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:play/widgets/splash_page.dart';
 import 'package:play/utils/data_utils.dart';
 import 'package:play/utils/event_bus.dart';
 import 'package:play/utils/theme_utils.dart';

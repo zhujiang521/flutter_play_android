@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:play/bean/collection_entity.dart';
 import 'package:play/costants/contants.dart';
 import 'package:play/utils/net_utils.dart';
@@ -22,6 +23,7 @@ class _ProfileCollectionPageState extends State<ProfileCollectionPage> {
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   int _page = 0;
+  final SlidableController slidableController = SlidableController();
 
   @override
   void initState() {
@@ -42,8 +44,8 @@ class _ProfileCollectionPageState extends State<ProfileCollectionPage> {
                   onLoading: _onLoading,
                   child: ListView.builder(
                     itemBuilder: (c, i) {
-                      var key = GlobalKey<SlideButtonState>();
-                      return SlideButton(
+                      //var key = GlobalKey<SlideButtonState>();
+                      return /*SlideButton(
                           child: CommonCollectionArticleItem(
                               articleList: _articleList[i]),
                           singleButtonWidth:
@@ -55,6 +57,50 @@ class _ProfileCollectionPageState extends State<ProfileCollectionPage> {
                               _articleList.removeAt(i);
                               key.currentState.close();
                             }),
+                          ])*/
+                          Slidable(
+                              key: Key(_articleList[i].title),
+                              controller: slidableController,
+                              child: CommonCollectionArticleItem(
+                                  articleList: _articleList[i]),
+                              actionPane: SlidableDrawerActionPane(),
+                              /*actions: <Widget>[
+                            IconSlideAction(
+                              caption: 'Archive',
+                              color: Colors.blue,
+                              icon: Icons.archive,
+                              onTap: () => _showSnackBar('Archive'),
+                            ),
+                            IconSlideAction(
+                              caption: 'Share',
+                              color: Colors.indigo,
+                              icon: Icons.share,
+                              onTap: () => _showSnackBar('Share'),
+                            ),
+                          ],*/
+                              secondaryActions: <Widget>[
+                            /*IconSlideAction(
+                              caption: 'More',
+                              color: Colors.black45,
+                              icon: Icons.more_horiz,
+                              onTap: () => _showSnackBar('More'),
+                            ),*/
+                            Container(
+                              margin: EdgeInsets.only(
+                                  top: ScreenUtil.getInstance().setWidth(10),
+                                  bottom: ScreenUtil.getInstance().setWidth(10),
+                                  left: 0),
+                              child: IconSlideAction(
+                                caption: '取消收藏',
+                                color: Colors.red,
+                                icon: Icons.delete,
+                                onTap: () {
+                                  unCollectArticle(_articleList[i].id,
+                                      _articleList[i].originId);
+                                  _articleList.removeAt(i);
+                                },
+                              ),
+                            ),
                           ]);
                     },
                     itemCount: _articleList.length,
@@ -138,5 +184,9 @@ class _ProfileCollectionPageState extends State<ProfileCollectionPage> {
         });
       }
     });
+  }
+
+  _showSnackBar(String s) {
+    ToastUtils.showToast(s);
   }
 }
