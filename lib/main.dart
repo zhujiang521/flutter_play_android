@@ -13,7 +13,11 @@ import 'view/home_view.dart';
 
 void main() {
   runApp(
-    OscWidget(),
+    // 实现整个应用变灰
+//    ColorFiltered(
+//        colorFilter: ColorFilter.mode(Colors.white, BlendMode.color),
+//        child: OscWidget()),
+      OscWidget()
   );
 }
 
