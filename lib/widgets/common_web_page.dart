@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:play/costants/contants.dart';
@@ -73,18 +74,29 @@ class _CommonWebPageState extends State<CommonWebPage> {
 
     List<Widget> _appBarTitle = [
       Container(
-        width: isLoading
-            ? ScreenUtil.getInstance().setWidth(640)
-            : ScreenUtil.getInstance().setWidth(720),
-        child: Text(
-          widget.title,
-          style: TextStyle(
-            color: Colors.white,
+          width: isLoading
+              ? ScreenUtil.getInstance().setWidth(640)
+              : ScreenUtil.getInstance().setWidth(720),
+          child: Text(
+            widget.title,
+            style: TextStyle(
+              color: Colors.white,
+            ),
+            overflow: TextOverflow.ellipsis,
+            softWrap: true,
+          )
+          /* Html(
+          data: widget.title,
+          customTextStyle: (node, TextStyle baseStyle) {
+            return baseStyle.merge(TextStyle(
+              fontSize: ScreenUtil.getInstance().setSp(52),
+              color: Colors.white,
+//              overflow: TextOverflow.ellipsis,
+//              softWrap: true,
+            ));
+          },
+        ),*/
           ),
-          overflow: TextOverflow.ellipsis,
-          softWrap: true,
-        ),
-      ),
     ];
     if (isLoading) {
       _appBarTitle.add(SizedBox(

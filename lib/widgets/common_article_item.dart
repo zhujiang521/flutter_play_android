@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:play/bean/article_entity.dart';
 import 'package:play/widgets/common_web_page.dart';
@@ -48,10 +49,17 @@ class CommonArticleItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    _articleList.title,
-                    style:
-                        TextStyle(fontSize: ScreenUtil.getInstance().setSp(45)),
+//                  Text(
+//                    _articleList.title,
+//                    style:
+//                        TextStyle(fontSize: ScreenUtil.getInstance().setSp(45)),
+//                  ),
+                  Html(
+                    data: _articleList.title,
+                    customTextStyle: (node, TextStyle baseStyle) {
+                      return baseStyle.merge(TextStyle(
+                          fontSize: ScreenUtil.getInstance().setSp(40)));
+                    },
                   ),
                   SizedBox(
                     height: ScreenUtil.getInstance().setHeight(20),
