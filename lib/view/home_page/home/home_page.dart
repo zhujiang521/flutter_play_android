@@ -53,26 +53,35 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Column(
-        children: <Widget>[HomeBanner(data: _data), _buildArticleList()],
+        children:
+            _articleList.length > 0 && _data.length > 0 ? content() : loading(),
       ),
     );
   }
 
+  List<Widget> content() =>
+      <Widget>[HomeBanner(data: _data), _buildArticleList()];
+
+  List<Widget> loading() => <Widget>[
+        Container(
+          height: ScreenUtil.getInstance().setHeight(1400),
+          child: CommonLoading(),
+        )
+      ];
+
   Expanded _buildArticleList() {
     return Expanded(
-      child: _articleList.length > 0
-          ? SmartRefresher(
-              enablePullUp: true,
-              controller: _refreshController,
-              onRefresh: _onRefresh,
-              onLoading: _onLoading,
-              child: ListView.builder(
-                itemBuilder: (c, i) =>
-                    CommonArticleItem(articleList: _articleList[i]),
-                itemCount: _articleList.length,
-              ),
-            )
-          : CommonLoading(),
+      child: SmartRefresher(
+        enablePullUp: true,
+        controller: _refreshController,
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        child: ListView.builder(
+          itemBuilder: (c, i) =>
+              CommonArticleItem(articleList: _articleList[i]),
+          itemCount: _articleList.length,
+        ),
+      ),
     );
   }
 
@@ -110,8 +119,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _getArticleList() {
-    NetUtils.get(AppUrls.GET_TOP_ARTICLE_LIST)
-        .then((value) async {
+    NetUtils.get(AppUrls.GET_TOP_ARTICLE_LIST).then((value) async {
       print("home_page: " + value);
       var data = json.decode(value);
       TopArticleEntity banner = TopArticleEntity().fromJson(data);

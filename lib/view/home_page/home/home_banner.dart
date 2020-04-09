@@ -18,29 +18,26 @@ class HomeBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: ScreenUtil.getInstance().setHeight(500),
-      child: _data.length > 0
-          ? Swiper(
-              itemBuilder: (BuildContext context, int index) {
-                return Image.network(
-                  _data[index].imagePath,
-                  fit: BoxFit.fill,
-                );
-              },
-              itemCount: _data.length,
-              pagination: SwiperPagination(),
-              autoplay: true,
-              autoplayDisableOnInteraction: true,
-              onTap: (index) {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => CommonWebPage(
-                          title: _data[index].title,
-                          url: _data[index].url,
-                          id: _data[index].id,
-                        )));
-              },
-            )
-          : CommonLoading(),
-    );
+        height: ScreenUtil.getInstance().setHeight(500),
+        child: Swiper(
+          itemBuilder: (BuildContext context, int index) {
+            return Image.network(
+              _data[index].imagePath,
+              fit: BoxFit.fill,
+            );
+          },
+          itemCount: _data.length,
+          pagination: SwiperPagination(),
+          autoplay: true,
+          autoplayDisableOnInteraction: true,
+          onTap: (index) {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => CommonWebPage(
+                      title: _data[index].title,
+                      url: _data[index].url,
+                      id: _data[index].id,
+                    )));
+          },
+        ));
   }
 }
