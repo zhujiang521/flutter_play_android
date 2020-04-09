@@ -97,6 +97,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.0.3"
+  flutter_plugin_android_lifecycle:
+    dependency: transitive
+    description:
+      name: flutter_plugin_android_lifecycle
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.0.6"
   flutter_screenutil:
     dependency: "direct main"
     description:
@@ -129,7 +136,7 @@ packages:
       name: flutter_webview_plugin
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.3.10+2"
+    version: "0.3.11"
   fluttertoast:
     dependency: "direct main"
     description:
@@ -171,7 +178,7 @@ packages:
       name: image_picker
       url: "https://pub.flutter-io.cn"
     source: hosted
-    version: "0.4.12+1"
+    version: "0.6.4"
   matcher:
     dependency: transitive
     description:
@@ -319,4 +326,4 @@ packages:
     version: "3.5.0"
 sdks:
   dart: ">=2.4.0 <3.0.0"
-  flutter: ">=1.12.8 <2.0.0"
+  flutter: ">=1.12.13 <2.0.0"
