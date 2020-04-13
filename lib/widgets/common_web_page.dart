@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 //import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:play/costants/contants.dart';
 import 'package:play/utils/data_utils.dart';
@@ -192,7 +193,10 @@ class _CommonWebPageState extends State<CommonWebPage> {
                 padding: EdgeInsets.only(
                   right: 10,
                 ),
-                child: Icon(Icons.more_vert,color: Colors.white,),
+                child: Icon(
+                  Icons.more_vert,
+                  color: Colors.white,
+                ),
               ),
             )
           : Container(),
