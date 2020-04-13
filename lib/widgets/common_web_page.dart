@@ -1,16 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+//import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:play/costants/contants.dart';
 import 'package:play/utils/data_utils.dart';
 import 'package:play/utils/net_utils.dart';
 import 'package:play/utils/theme_utils.dart';
 import 'package:play/utils/toast.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class CommonWebPage extends StatefulWidget {
   final String title;
@@ -32,8 +33,11 @@ class _CommonWebPageState extends State<CommonWebPage> {
   List<Map<String, Object>> list = List();
   bool isLoading = true;
   bool isDialog = false;
-  FlutterWebviewPlugin _flutterWebviewPlugin = FlutterWebviewPlugin();
+
+  //FlutterWebviewPlugin _flutterWebviewPlugin = FlutterWebviewPlugin();
   String collect = "收藏";
+  final Completer<WebViewController> _controller =
+      Completer<WebViewController>();
 
   @override
   void initState() {
@@ -43,20 +47,20 @@ class _CommonWebPageState extends State<CommonWebPage> {
     }
 
     //监听url变化
-    _flutterWebviewPlugin.onStateChanged.listen((state) {
-      if (state.type == WebViewState.finishLoad) {
-        if (!mounted) return;
-        setState(() {
-          isLoading = false;
-        });
-      } else if (state.type == WebViewState.startLoad) {
-        if (mounted) {
-          setState(() {
-            isLoading = true;
-          });
-        }
-      }
-    });
+//    _flutterWebviewPlugin.onStateChanged.listen((state) {
+//      if (state.type == WebViewState.finishLoad) {
+//        if (!mounted) return;
+//        setState(() {
+//          isLoading = false;
+//        });
+//      } else if (state.type == WebViewState.startLoad) {
+//        if (mounted) {
+//          setState(() {
+//            isLoading = true;
+//          });
+//        }
+//      }
+//    });
   }
 
   @override
@@ -105,7 +109,7 @@ class _CommonWebPageState extends State<CommonWebPage> {
       _appBarTitle.add(CupertinoActivityIndicator());
     }
 
-    return WebviewScaffold(
+    return /*WebviewScaffold(
       url: widget.url,
       appBar: AppBar(
         title: Row(
@@ -124,6 +128,50 @@ class _CommonWebPageState extends State<CommonWebPage> {
         child: container(),
         visible: isDialog,
       ),
+    );*/
+        Scaffold(
+      appBar: AppBar(
+        title: Row(
+          children: _appBarTitle,
+        ),
+        // This drop down menu demonstrates that Flutter widgets can be shown over the web view.
+        actions: actions(context),
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
+      // We're using a Builder here so we have a context that is below the Scaffold
+      // to allow calling Scaffold.of(context) so we can show a snackbar.
+      body: Builder(builder: (BuildContext context) {
+        return WebView(
+          initialUrl: widget.url,
+          javascriptMode: JavascriptMode.unrestricted,
+          onWebViewCreated: (WebViewController webViewController) {
+            _controller.complete(webViewController);
+          },
+          // TODO(iskakaushik): Remove this when collection literals makes it to stable.
+          // ignore: prefer_collection_literals
+          navigationDelegate: (NavigationRequest request) {
+            if (request.url.startsWith('https://www.youtube.com/')) {
+              print('blocking navigation to $request}');
+              return NavigationDecision.prevent;
+            }
+            print('allowing navigation to $request');
+            return NavigationDecision.navigate;
+          },
+          onPageStarted: (String url) {
+            print('Page started loading: $url');
+            setState(() {
+              isLoading = true;
+            });
+          },
+          onPageFinished: (String url) {
+            print('Page finished loading: $url');
+            setState(() {
+              isLoading = false;
+            });
+          },
+          gestureNavigationEnabled: true,
+        );
+      }),
     );
   }
 
@@ -134,17 +182,17 @@ class _CommonWebPageState extends State<CommonWebPage> {
               onTap: () {
                 // 显示底部弹框
 
-                //showBottomSheet(context);
+                showBottomSheet(context);
 
-                setState(() {
-                  isDialog = true;
-                });
+//                setState(() {
+//                  isDialog = true;
+//                });
               },
               child: Container(
                 padding: EdgeInsets.only(
                   right: 10,
                 ),
-                child: Icon(Icons.more_vert),
+                child: Icon(Icons.more_vert,color: Colors.white,),
               ),
             )
           : Container(),
@@ -219,9 +267,7 @@ class _CommonWebPageState extends State<CommonWebPage> {
   }
 
   void handleBottomSheetItemClick(context, index) {
-    setState(() {
-      isDialog = false;
-    });
+    Navigator.pop(context);
     switch (index) {
       case 0:
         addArticleFavorite();
