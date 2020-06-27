@@ -44,9 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
   ];
   String userAvatar;
   String userName;
-  int level = 0;
-  int rank = 0;
-  int coinCount = 0;
+  String nickname;
 
   @override
   void initState() {
@@ -215,7 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
               height: ScreenUtil.getInstance().setHeight(20),
             ),
             Text(
-              "等级 $level   排名 $rank   积分 $coinCount",
+              nickname ??= "未登录",
               style: TextStyle(
                   color: Colors.white, fontSize: ScreenUtil().setSp(40)),
             ),
@@ -225,42 +223,28 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  void _getUerInfo() {
-    DataUtils.isLogin().then((isLogin) {
-      if (isLogin) {
-        DataUtils.getUserInfo().then((login) {
-          NetUtils.get(AppUrls.GET_COIN_USER).then((value) async {
-            var data = json.decode(value);
-            CoinUserEntity banner = CoinUserEntity().fromJson(data);
-            if (mounted) {
-              setState(() {
-                if (banner.errorCode == 0) {
-                  level = banner.data.level;
-                  coinCount = banner.data.coinCount;
-                  rank = banner.data.rank;
-                } else {
-                  level = 0;
-                  coinCount = 0;
-                  rank = 0;
-                }
-                userAvatar = login.icon == ""
-                    ? "http://pic2.zhimg.com/50/v2-fb824dbb6578831f7b5d92accdae753a_hd.jpg"
-                    : login.icon;
-                userName = login.nickname;
-              });
-            }
-          });
-        });
-      } else {
-        setState(() {
-          level = 0;
-          coinCount = 0;
-          rank = 0;
-          userAvatar = null;
-          userName = null;
-        });
+  Future<void> _getUerInfo() async {
+    var isLogin = await DataUtils.isLogin();
+    if (isLogin) {
+      var login = await DataUtils.getUserInfo();
+      if (mounted) {
+        userAvatar = login.icon == ""
+            ? "http://pic2.zhimg.com/50/v2-fb824dbb6578831f7b5d92accdae753a_hd.jpg"
+            : login.icon;
+        userName = login.username;
+        nickname = login.nickname;
       }
+    } else {
+      userAvatar = null;
+      userName = null;
+      nickname = null;
+    }
+
+    eventBus.on<ChangeThemeEvent>().listen((event) {
+      setState(() {});
     });
+
+    setState(() {});
   }
 
   void _login() {
